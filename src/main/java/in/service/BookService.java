@@ -1,5 +1,7 @@
 package in.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +32,9 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Book not found"));
         book.setAvailable(true);
         return bookRepository.save(book);
+    }
+    
+    public List<BookEntity> viewAvailableBooks() {
+        return bookRepository.findAll();
     }
 }

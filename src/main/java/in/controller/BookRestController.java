@@ -1,5 +1,6 @@
 package in.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,10 @@ public class BookRestController {
 	    bookService.addBook(bookEntity);
 	    return new ResponseEntity<BookEntity>(bookEntity, HttpStatus.OK);
 	}
+	
+	@GetMapping("/available")
+    public ResponseEntity<List<BookEntity>> viewAvailableBooks() {
+        return ResponseEntity.ok(bookService.viewAvailableBooks());
+    }
 
 }
