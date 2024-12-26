@@ -1,7 +1,9 @@
 package in.controller;
 
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,4 +37,11 @@ public class BookRestControllerTest {
 
 		assertEquals(book.getIsbn(), addedBook.getIsbn());
 	}
+	
+	@Test
+    public void testBorrowBook() {
+        when(bookRepository.findByIsbn("1234567890")).thenReturn(Optional.of(book));
+        BookEntity borrowedBook = bookService.borrowBook("1234567890");
+        assertFalse(borrowedBook.isAvailable());
+    }
 }
