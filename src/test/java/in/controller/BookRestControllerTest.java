@@ -1,9 +1,7 @@
 package in.controller;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.when;
-
-import java.awt.print.Book;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,25 +9,30 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class RestControllerTest {
+import in.model.BookEntity;
+import in.repository.BookRepository;
+import in.service.BookService;
+
+public class BookRestControllerTest {
 	@Mock
 	private BookRepository bookRepository;
 
 	@InjectMocks
-	private LibraryService libraryService;
+	private BookService bookService;
 
-	private Book book;
+	private BookEntity book;
 
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
-		book = new Book("1234567890", "Test Book", "Author", 2023);
+		book = new BookEntity("1234567890", "Test Book", "Author", 2023, true);
 	}
 
 	@Test
 	public void testAddBook() {
-		when(bookRepository.save(any(Book.class))).thenReturn(book);
-		Book addedBook = libraryService.addBook(book);
+		when(bookRepository.save(book)).thenReturn(book);
+		BookEntity addedBook = bookService.addBook(book);
+
 		assertEquals(book.getIsbn(), addedBook.getIsbn());
 	}
 }
