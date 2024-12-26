@@ -42,26 +42,26 @@ public class BookRestControllerTest {
 
 		assertEquals(book.getIsbn(), addedBook.getIsbn());
 	}
-	
+
 	@Test
-    public void testBorrowBook() {
-        when(bookRepository.findByIsbn("1234567890")).thenReturn(Optional.of(book));
-        BookEntity borrowedBook = bookService.borrowBook("1234567890");
-        assertFalse(borrowedBook.isAvailable());
-    }
-	
+	public void testBorrowBook() {
+		when(bookRepository.findByIsbn("1234567890")).thenReturn(Optional.of(book));
+		BookEntity borrowedBook = bookService.borrowBook("1234567890");
+		assertFalse(borrowedBook.isAvailable());
+	}
+
 	@Test
-    public void testReturnBook() {
-        book.setAvailable(true);
-        when(bookRepository.findByIsbn("1234567890")).thenReturn(Optional.of(book));
-        BookEntity returnedBook = bookService.returnBook("1234567890");
-        assertTrue(returnedBook.isAvailable());
-    }
-	
-	 @Test
-	    public void testViewAvailableBooks() {
-	        book.setAvailable(true);
-	        when(bookRepository.findAll()).thenReturn(Collections.singletonList(book));
-	        assertEquals(1, bookService.viewAvailableBooks().size());
-	    }
+	public void testReturnBook() {
+		book.setAvailable(true);
+		when(bookRepository.findByIsbn("1234567890")).thenReturn(Optional.of(book));
+		BookEntity returnedBook = bookService.returnBook("1234567890");
+		assertTrue(returnedBook.isAvailable());
+	}
+
+	@Test
+	public void testViewAvailableBooks() {
+		book.setAvailable(true);
+		when(bookRepository.findAll()).thenReturn(Collections.singletonList(book));
+		assertEquals(1, bookService.viewAvailableBooks().size());
+	}
 }
