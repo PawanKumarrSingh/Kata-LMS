@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,4 +57,11 @@ public class BookRestControllerTest {
         BookEntity returnedBook = bookService.returnBook("1234567890");
         assertTrue(returnedBook.isAvailable());
     }
+	
+	 @Test
+	    public void testViewAvailableBooks() {
+	        book.setAvailable(true);
+	        when(bookRepository.findAll()).thenReturn(Collections.singletonList(book));
+	        assertEquals(1, bookService.viewAvailableBooks().size());
+	    }
 }
