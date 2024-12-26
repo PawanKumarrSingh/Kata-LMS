@@ -26,28 +26,28 @@ public class BookRestController {
 	public ResponseEntity<BookEntity> addBook(@RequestBody BookEntity book) {
 		return ResponseEntity.ok(bookService.addBook(book));
 	}
-	
+
 	@PostMapping("/{isbn}/borrow")
-    public ResponseEntity<BookEntity> borrowBook(@PathVariable String isbn) {
-        return ResponseEntity.ok(bookService.borrowBook(isbn));
-    }
-	
+	public ResponseEntity<BookEntity> borrowBook(@PathVariable String isbn) {
+		return ResponseEntity.ok(bookService.borrowBook(isbn));
+	}
+
 	@GetMapping("/returnbook/{bookTitle}")
 	public ResponseEntity<?> returnBook(@PathVariable String bookTitle) {
-	    Optional<BookEntity> book = Optional.of(bookService.returnBook(bookTitle));
-	    if (book.isEmpty()) {
-	        new ResponseEntity<String>("Please Enter correct book ID.",HttpStatus.BAD_REQUEST);
-	    }
+		Optional<BookEntity> book = Optional.of(bookService.returnBook(bookTitle));
+		if (book.isEmpty()) {
+			new ResponseEntity<String>("Please Enter correct book ID.", HttpStatus.BAD_REQUEST);
+		}
 
-	    BookEntity bookEntity = book.get();
-	    bookEntity.setAvailable(true); // Mark as returned
-	    bookService.addBook(bookEntity);
-	    return new ResponseEntity<BookEntity>(bookEntity, HttpStatus.OK);
+		BookEntity bookEntity = book.get();
+		bookEntity.setAvailable(true); // Mark as returned
+		bookService.addBook(bookEntity);
+		return new ResponseEntity<BookEntity>(bookEntity, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/available")
-    public ResponseEntity<List<BookEntity>> viewAvailableBooks() {
-        return ResponseEntity.ok(bookService.viewAvailableBooks());
-    }
+	public ResponseEntity<List<BookEntity>> viewAvailableBooks() {
+		return ResponseEntity.ok(bookService.viewAvailableBooks());
+	}
 
 }
