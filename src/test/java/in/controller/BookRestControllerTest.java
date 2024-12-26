@@ -3,7 +3,6 @@ package in.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -13,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ActiveProfiles;
 
 import in.model.BookEntity;
 import in.repository.BookRepository;
 import in.service.BookService;
 
+@ActiveProfiles("test")
 public class BookRestControllerTest {
 	@Mock
 	private BookRepository bookRepository;
@@ -50,7 +51,7 @@ public class BookRestControllerTest {
 	
 	@Test
     public void testReturnBook() {
-        book.setAvailable(false);
+        book.setAvailable(true);
         when(bookRepository.findByIsbn("1234567890")).thenReturn(Optional.of(book));
         BookEntity returnedBook = bookService.returnBook("1234567890");
         assertTrue(returnedBook.isAvailable());

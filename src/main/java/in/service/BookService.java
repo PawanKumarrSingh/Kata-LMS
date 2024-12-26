@@ -24,4 +24,11 @@ public class BookService {
         book.setAvailable(false);
         return bookRepository.save(book);
     }
+    
+    public BookEntity returnBook(String isbn) {
+        BookEntity book = bookRepository.findByIsbn(isbn)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+        book.setAvailable(true);
+        return bookRepository.save(book);
+    }
 }

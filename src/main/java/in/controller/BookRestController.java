@@ -1,7 +1,11 @@
 package in.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,4 +30,18 @@ public class BookRestController {
     public ResponseEntity<BookEntity> borrowBook(@PathVariable String isbn) {
         return ResponseEntity.ok(bookService.borrowBook(isbn));
     }
+	
+	@GetMapping("/returnbook/{bookTitle}")
+	public ResponseEntity<?> returnBook(@PathVariable String bookTitle) {
+	    Optional<BookEntity> book = Optional.of(bookService.returnBook(bookTitle));
+	    if (book.isEmpty()) {
+	        new ResponseEntity<String>("Please Enter correct book ID.",HttpStatus.BAD_REQUEST);
+	    }
+
+	    BookEntity bookEntity = book.get();
+	    bookEntity.setAvailable(true); // Mark as returned
+	    bookService.addBook(bookEntity);
+	    return new ResponseEntity<BookEntity>(bookEntity, HttpStatus.OK);
+	}
+
 }
